@@ -1,6 +1,6 @@
 Class {
 	#name : 'BaselineOfMethodProfiler',
-	#superclass : 'Object',
+	#superclass : 'BaselineOf',
 	#category : 'BaselineOfMethodProfiler',
 	#package : 'BaselineOfMethodProfiler'
 }
