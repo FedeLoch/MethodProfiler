@@ -35,11 +35,15 @@ MethodProfiler class >> profile: block for: methods [
 
 	handlers := methodProxies collect: #handler.
 	
-	"Installing method proxies"
-	methodProxies do: [ :mp | mp install; enableInstrumentation ].
-	
-	"Executing"
-	block ensure: [ methodProxies do: #uninstall ].
+	"Installing method proxies and executing"
+	[
+		methodProxies do: #install.
+		MpMethodProxy enableInstrumentation.
+		block value.
+	] ensure: [
+		MpMethodProxy disableInstrumentation.
+		methodProxies do: [ :mp | mp isInstalled ifTrue: [ mp uninstall ] ]
+	].
 
 	^ self result: handlers
 ]
